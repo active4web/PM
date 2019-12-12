@@ -1,0 +1,222 @@
+<?php
+//session_start();
+ob_start();
+if(!isset($_SESSION['admin_name'])||$_SESSION['admin_name']==""){ 
+header("Location:".base_url()."admin/login"); 
+}
+else{
+$id_admin=$_SESSION['id_admin'];
+$admin_name=$_SESSION['admin_name'];
+$last_login=$_SESSION['last_login'];
+$curt='tasks';
+}
+
+?>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" dir="rtl">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8">
+<title>>أخطاء المهام</title>
+<?php include ("design/inc/header.php");?>
+</head>
+<body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo page-md">
+		<!-- BEGIN HEADER -->
+        <?php include ("design/inc/topbar.php");?>
+        <!-- END HEADER -->
+		<!-- BEGIN HEADER & CONTENT DIVIDER -->
+		<div class="clearfix"> </div>
+		<!-- END HEADER & CONTENT DIVIDER -->
+		<!-- BEGIN CONTAINER -->
+		<div class="page-container">
+			<!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- BEGIN SIDEBAR -->
+                <?php include ("design/inc/sidebar.php");?>
+                <!-- END SIDEBAR -->
+            </div>
+            <!-- END SIDEBAR -->
+			<!-- BEGIN CONTENT -->
+			<div class="page-content-wrapper">
+				<!-- BEGIN CONTENT BODY -->
+				<div class="page-content">
+					<!-- BEGIN PAGE BREADCRUMB -->
+					<ul class="page-breadcrumb breadcrumb">
+						<li>
+							<a href="<?=$url.'admin';?>"><?= lang('admin_panel'); ?></a>
+							<i class="fa fa-circle"></i>
+						</li>
+
+						<li>
+							<span class="active">أخطاء المهام</span>
+						</li>
+					</ul>
+					<!-- END PAGE BREADCRUMB -->
+
+					<!-- Start Table Data -->
+					<div class="row">
+						<div class="col-md-12">
+							<!-- BEGIN EXAMPLE TABLE PORTLET-->
+							<div class="portlet light bordered">
+								<div class="portlet-title">
+									<div class="caption font-dark"></div>
+								<span class="portlet-body">
+									<div class="table-toolbar">
+										<div class="row">
+											<div class="col-md-12">
+												<?php if($result_amount>0){
+													if($this->session->userdata('multitasks_delete')=="multitasks_delete"){
+													?>
+													<div class="btn-group">
+														<button id="sample_editable_1_2_new" class="btn sbold red delbutton"> حذف مجموعة
+															<i class="fa fa-remove"></i>
+														</button>
+													</div>
+													<?php }?>
+												<?php }?>
+											
+														</div>
+													
+										</div>
+									</div>
+									<?php if(!empty($results)){?>
+									<form action="<?=$url?>admin/task/delete" method="POST" id="form">
+									<table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1_2">
+										<thead>
+										<tr>
+												<th>
+													<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+														<input id="checkAll" type="checkbox" class="group-checkable" data-set="#sample_1_2 .checkboxes" />
+														<span></span>
+													</label>
+												</th>
+												<th> العنوان </th>
+												<th> المحتوى </th>
+												<th> تاريخ الإرسال </th>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th> </th>
+												<th> </th>
+												<th> </th>
+												<th> </th>
+												<th> </th>
+										
+											
+											</tr>
+										</tfoot>
+										<tbody>
+									<?php
+                                            foreach($results as $data) {
+											//$admin = get_this('admin',['id'=>$data->id_admin],'username');
+											$key_id=$data->key_id;
+											switch($key_id){
+												case 1:
+												  $key_id="<span class='label label-sm label-success'>اضافة مهمة</span>";
+												  $url="task/tasks?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												case 2:
+												  $key_id="<span class='label label-sm label-success'>تعديل مهمة</span>";
+												  $url="task/tasks?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												  case 3:
+												  $key_id="<span class='label label-sm label-success'>تعديل توقيت مهمة</span>";
+												  $url="task/tasks?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												  case 4:
+												  $key_id="<span class='label label-sm label-success'>انهاء مهمة</span>";
+												  $url="task/tasks?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												  case 5:
+												  $key_id="<span class='label label-sm label-success'>مراجعة مهمة</span>";
+												  $url="task/tasks?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												  case 6:
+												  $key_id="<span class='label label-sm label-success'>مراجعة مهمة</span>";
+												  $url="task/tasks?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												  case 7:
+												  $key_id="<span class='label label-sm label-success'>اضافة مشروع</span>";
+												  $url="projects/details?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												  case 8:
+												  $key_id="<span class='label label-sm label-success'>تعديل مشروع</span>";
+												  $url="projects/details?id_project=".$data->project_id."&notifications_id=".$data->id;
+												  break;
+												  case 10:
+												  $key_id="<span class='label label-sm label-success'>اضافة مهمة اخرى</span>";
+												  $url="other/tasks?notifications_id=".$data->id;
+												  break;
+												  case 11:
+												  $key_id="<span class='label label-sm label-success'>تعديل مهام اخرى</span>";
+												  $url="other/tasks?notifications_id=".$data->id;
+												  break;
+												   case 12:
+												  $key_id="<span class='label label-sm label-success'>تعديل مهام اخرى</span>";
+												  $url="other/tasks?notifications_id=".$data->id;
+												  break;
+												default:
+												  break; 
+											}
+                                        ?>
+
+										</tbody>
+									</table>
+									</form>
+									<?php 
+											
+									  }}else{?>
+									<center><span class="caption-subject font-red bold uppercase">عفوا لاتوجد بيانات للعرض</span></center>
+									<?php }?>
+					
+								</div>
+							</div>
+							<!-- END EXAMPLE TABLE PORTLET-->
+						</div>
+					</div>
+					<!-- END Table Data-->
+
+				</div>
+				<!-- END CONTENT -->
+		</div>
+        <!-- END CONTAINER -->
+        <!-- BEGIN FOOTER -->
+        <?php include ("design/inc/footer.php");?>
+        <!-- END FOOTER -->
+
+        <?php include ("design/inc/footer_js.php");?>
+
+
+<script>
+$(document).ready(function(e) {
+    $("#checkAll").change(function(){
+		$("input[type=checkbox]").not("#checkAll").each(function() {
+            this.checked=!this.checked;
+        });
+	});
+	$(".delbutton").click(function(){
+		if($('input[type=checkbox]:not("#checkAll"):checked').length>0){
+			$('#form').unbind('submit').submit();//renable submit
+		}
+	    else{
+			window.stop();
+			//alert("<?=lang('row_one_alert');?>");
+			toastr.warning("<?=lang('row_one_alert');?>");
+	}
+	});
+});
+</script>
+<?php if(isset($_SESSION['msg']) && $_SESSION['msg']!=''){?>
+<script>
+$(document).ready(function(e) {
+	toastr.success("<?php echo $_SESSION['msg']?>");
+});
+</script>
+<?php }?>
+</body>
+</html>

@@ -1,0 +1,5653 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+class Admin extends MY_Controller {
+public function __construct()
+
+        {
+          parent::__construct();
+          $this->load->library('session');
+          $this->load->library('pagination');
+          $this->load->model('data','','true');
+          $this->load->library('upload');
+          //$this->load->controller('cont/Client');
+          $this->load->helper(array('form', 'url','text'));
+        }
+
+    
+
+/****Gen_Random_String***********************************************/
+
+public function gen_random_string()
+
+{
+
+    $chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";//length:36
+
+    $final_rand='';
+
+    for($i=0;$i<4; $i++) {
+ $final_rand .= $chars[ rand(0,strlen($chars)-1)];
+    }
+ return $final_rand;
+}
+
+/**** END Gen_Random_String**********************************************/
+
+public function index(){
+$this->load->view('home');
+}
+
+public function home(){
+$this->load->view('home');
+}
+
+/*******************************************************18-12-2017*/
+public function main_page(){
+$this->data = array(
+'mainpage'=> $this->data->get_table_data('site_info'));	
+$this->load->view('main_page',$this->data);
+}
+
+
+
+
+
+
+
+
+public function update_mainpage(){
+$titlear_solgin=$this->input->post('titlear_solgin');
+$title_solgin=$this->input->post('title_solgin');
+$descriptionar_solgin=$this->input->post('descriptionar_solgin');
+$description_solgin=$this->input->post('description_solgin');
+$block1=$this->input->post('block1');
+$block2=$this->input->post('block2');
+$block3=$this->input->post('block3');
+$block1ar=$this->input->post('block1ar');
+$block2ar=$this->input->post('block2ar');
+$block3ar=$this->input->post('block3ar');
+
+
+
+$btitle1=$this->input->post('btitle1');
+$btitle2=$this->input->post('btitle2');
+$btitle3=$this->input->post('btitle3');
+$btitle_ar1=$this->input->post('btitle_ar1');
+$btitle_ar2=$this->input->post('btitle_ar2');
+$btitle_ar3=$this->input->post('btitle_ar3');
+
+$policyar=$this->input->post('policyar');
+$policy=$this->input->post('policy');
+
+
+$main_title=$this->input->post('main_title');
+$main_titlear=$this->input->post('main_titlear');
+$t1=$this->input->post('t1');
+$t2=$this->input->post('t2');
+$t3=$this->input->post('t3');
+$t1ar=$this->input->post('t1ar');
+$t2ar=$this->input->post('t2ar');
+$t3ar=$this->input->post('t3ar');
+
+$data = array('title_solgin'=>$title_solgin,'titlear_solgin'=>$titlear_solgin,'description_solgin'=>$description_solgin,'descriptionar_solgin'=>$descriptionar_solgin,'block1'=>$block1,'block2'=>$block2,'block3'=>$block3,'block1ar'=>$block1ar,'block2ar'=>$block2ar,'block3ar'=>$block3ar,'btitle1'=>$btitle1,'btitle2'=>$btitle2,'btitle3'=>$btitle3,'btitle_ar1'=>$btitle_ar1,'btitle_ar2'=>$btitle_ar2,'btitle_ar3'=>$btitle_ar3,'policyar'=>$policyar,'policy'=>$policy,'main_title'=>$main_title,'main_titlear'=>$main_titlear,'t1'=>$t1,'t2'=>$t2,'t3'=>$t3,'t1ar'=>$t1ar,'t2ar'=>$t2ar,'t3ar'=>$t3ar);
+$re=$this->data->edit_table('site_info','2',$data);
+
+
+if($_FILES['b1']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'b1'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('b1')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['b1']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('b1'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+
+  }
+
+  
+if($_FILES['b2']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'b2'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('b2')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['b2']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('b2'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+
+  }  
+  
+   
+if($_FILES['b3']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'b3'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('b3')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['b3']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('b3'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+  }
+
+
+if($_FILES['policyimg']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'policyimg'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =6000000;
+$config['max_width']            =6000000;
+$config['max_height']           =6000000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('policyimg')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['policyimg']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('policyimg'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+  }
+
+/*****************/
+if($_FILES['imgt1']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'imgt1'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =6000000;
+$config['max_width']            =6000000;
+$config['max_height']           =6000000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('imgt1')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['imgt1']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('imgt1'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+  }
+
+
+if($_FILES['imgt2']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'imgt2'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =6000000;
+$config['max_width']            =6000000;
+$config['max_height']           =6000000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('imgt2')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['imgt2']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('imgt2'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+  }
+
+if($_FILES['imgt3']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'imgt3'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =6000000;
+$config['max_width']            =6000000;
+$config['max_height']           =6000000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('imgt3')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['imgt3']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('imgt3'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+  }
+$this->load->helper('url');
+redirect('/home/main_page?success', 'refresh');  
+}
+
+
+
+public function about_page(){
+$this->data = array(
+'mainpage'=> $this->data->get_table_data('site_info'));	
+$this->load->view('about_page',$this->data);
+}
+
+
+public function update_aboutpage(){
+$video=$this->input->post('video');
+$video_about=$this->input->post('video_about');
+$video_about_ar=$this->input->post('video_about_ar');
+$about_titlear=$this->input->post('about_titlear');
+$about_title=$this->input->post('about_title');
+$main_descripar=$this->input->post('main_descripar');
+$main_descrip=$this->input->post('main_descrip');
+$about_titlebar=$this->input->post('about_titlebar');
+$about_titleb=$this->input->post('about_titleb');
+$secmain_descripar=$this->input->post('secmain_descripar');
+$secmain_descrip=$this->input->post('secmain_descrip');
+
+$data = array('video'=>$video,'video_about'=>$video_about,'video_about_ar'=>$video_about_ar,'about_titlear'=>$about_titlear,'about_title'=>$about_title,'main_descripar'=>$main_descripar,'main_descrip'=>$main_descrip,'about_titlebar'=>$about_titlebar,'about_titleb'=>$about_titleb,'secmain_descripar'=>$secmain_descripar,'secmain_descrip'=>$secmain_descrip);
+$re=$this->data->edit_table('site_info','2',$data);
+
+
+if($_FILES['about_img1']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'about_img1'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('about_img1')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['about_img1']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('about_img1'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+
+  }
+
+  
+if($_FILES['about_img']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'about_img'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('about_img')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['about_img']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('about_img'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+
+  }  
+  
+   
+
+$this->load->helper('url');
+redirect('/home/about_page?success', 'refresh');  
+}
+
+
+
+
+/**********************************************************/
+
+public function login(){
+$this->load->view('admin/login');
+}
+
+
+
+
+
+public function user_profile(){
+  $id_admin=$this->session->userdata['id_admin'];;
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'data_admin'=>$this->data->get_table_data('admin',array('id'=>$id_admin)));
+ $this->load->view('admin/user_profile',$this->data);
+    }
+
+
+
+public function update_profile(){
+  $id_admin=$this->session->userdata['id_admin'];
+  
+  $fname=$this->input->post('fname');
+  $lname=$this->input->post('lname');
+  $phone=$this->input->post('phone');
+  $email=$this->input->post('email');
+  $this->session->set_userdata(array('admin_name' => $fname));
+  $data['fname']=$fname;
+  $data['lname']=$lname;
+  $data['mail']=$email;
+  $data['phone']=$phone;
+  $res_result=$this->data->edit_table('admin',$id_admin,$data);
+  $this->session->set_flashdata('msg', 'Your request update success');
+$this->session->mark_as_flash('msg'); 
+redirect('/admin/user_profile', 'refresh'); 
+
+}
+
+public function logout(){
+  $this->load->view('admin/logout');
+}
+
+    public function sendpassword($mail)
+    {
+      $this->load->library('email');
+      $email = $mail;
+      $findemail = $this->data->get_table_row('admin',array('mail'=>$email),'id');
+      $name = $this->data->get_table_row('admin',array('mail'=>$email),'username');
+      //echo $findemail;die;
+      if (count($findemail)>0)
+        {
+          $passwordplain = "";
+          $passwordplain  = $this->gen_random_string();
+          $newpass = md5($passwordplain);
+          $data = array('password'=>$newpass);
+          $this->data->edit_table('admin',$findemail,$data);
+          $subject = 'Your Reset Password';
+          $mail_message='Dear '.$name.','. "\r\n";
+          $mail_message.='Thanks for contacting regarding to forgot password,<br> Your New <b>Password</b> is <b>'.$passwordplain.'</b>'."\r\n";
+          $mail_message.='<br>Please Update your password.';
+          $mail_message.='<br>Thanks & Regards';
+          $mail_message.='<br>Dmitry.com';
+          $message = $mail_message;
+          $body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+          <html xmlns="http://www.w3.org/1999/xhtml">
+          <head>
+              <meta http-equiv="Content-Type" content="text/html; charset=' . strtolower(config_item('charset')) . '" />
+              <title>' . html_escape($subject) . '</title>
+              <style type="text/css">
+                  body {
+                      font-family: Arial, Verdana, Helvetica, sans-serif;
+                      font-size: 16px;
+                  }
+              </style>
+          </head>
+          <body>
+          ' . $message . '
+          </body>
+          </html>';
+          $result = $this->email
+        ->from('islam.devphp@gmail.com')
+        ->reply_to('islam.devphp@gmail.com')    // Optional, an account where a human being reads.
+        ->to($email)
+        ->subject($subject)
+        ->message($body)
+        ->send();
+    
+        //var_dump($result);
+        if($result==true){
+          $this->session->set_flashdata('msg','Password sent to your email!');
+          redirect(base_url().'admin/login','refresh');
+        }else{
+          $this->session->set_flashdata('msg','Failed to send password, please try again!');
+          redirect(base_url().'admin/login','refresh');
+        }
+        //echo $this->email->print_debugger();
+        }
+        else
+        {  
+         $this->session->set_flashdata('msg','Email not found try again!');
+         redirect(base_url().'admin/login','refresh');
+        }
+    }
+        
+    
+    public function ForgotPassword()
+    {
+      $email = $this->input->post('email');      
+      $findemail = $this->data->get_table_row('admin',array('mail'=>$email),'mail');
+      if($findemail){
+      $this->sendpassword($findemail);        
+      }else{
+      $this->load->helper('url');
+      $this->session->set_flashdata('msg','Email not found!');
+      redirect(base_url().'admin/login','refresh');
+      }
+    }
+
+    public function submit_login(){
+      $dd=base_url();
+      ob_start();
+          $username = $this->security->sanitize_filename($this->input->post('user_name'),true);
+          $password = $this->security->sanitize_filename($this->input->post('password'),true);
+          $passwordp=md5($password);
+           //echo $username;
+           //echo $password;
+          $customer_id="";
+      $customer_id = $this->data->get_table_row('admin',array('username'=>$username,'password'=>$passwordp,'view'=>'1'),'id');
+          if($customer_id != ""){
+          $site_name = $this->data->get_table_row('site_info',array(),'name');
+          $site_favicon = $this->data->get_table_row('site_info',array(),'favicon');
+          $username =$this->data->get_table_row('admin',array('id'=>$customer_id),'username');
+          $type =$this->data->get_table_row('admin',array('id'=>$customer_id),'type');
+          $last_login =$this->data->get_table_row('admin',array('id'=>$customer_id),'last_login');
+                     $this->session->set_userdata(array('id_admin' => $customer_id));
+          $this->session->set_userdata(array('admin_name' => $username));
+          $this->session->set_userdata(array('type_admin' => $type));
+          $this->session->set_userdata(array('last_login' => $last_login));
+          $this->session->set_userdata(array('site_name' => $site_name));
+          $this->session->set_userdata(array('site_favicon' => $site_favicon));
+          if(isset($_SESSION['admin_name'])){
+           //echo $_SESSION['admin_name'];
+           //$url = $dd.'admin';
+          //header("location:$url");
+          redirect(base_url().'admin/','refresh');
+          }
+          }
+          else {
+            //$url = $dd.'admin/login';
+            //header("location:$url");
+            $this->session->set_flashdata('msg','Error in username or password');
+            redirect(base_url().'admin/login','refresh');
+          }      
+}
+
+ public function admin(){
+    $tables = "admin";
+    $config = array();
+    $config['base_url'] = base_url().'admin/admin'; 
+    $config['total_rows'] = $this->data->record_count($tables,array(),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page,'id','desc');
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('admin/admin',$data);
+  }
+
+
+
+
+
+ public function add_admin(){
+	 $this->data = array('num_admin'=> $this->data->get_table_data('admin'),);
+ $this->load->view('admin/add_admin',$this->data);
+    } 
+
+  
+
+public function update_admin(){
+$id=$this->input->get('id');
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'up_admin'=> $this->data->get_table_data('admin',array('id'=>$id))); 
+ $this->load->view('admin/update_admin',$this->data);
+    }
+
+
+
+public function admin_action(){
+$username=$this->input->post('username');
+$mail=$this->input->post('mail');
+$type=$this->input->post('type');
+$password = $this->input->post('password');
+$pincode = $this->input->post('pincode');
+
+$data['username'] = $username;
+$data['email'] = $mail;
+$data['role'] = $type;
+$data['password'] = md5($password);
+$data['pincode'] = md5($pincode);
+$data['text_value'] = $password;
+$this->db->insert('admin',$data);
+redirect(base_url("admin/admin"));
+}
+
+public function update_admin_action(){
+ $id=$this->input->post('id');
+ $password=$this->input->post('password');
+ $pincode = $this->input->post('pincode');
+ $type=$this->input->post('type');
+ if($pincode!=""){
+  $data = array('pincode'=>md5($pincode));
+ $this->data->edit_table('admin',$id,$data);    
+ }
+ $data = array('password'=>md5($password),'text_value'=>$password);
+ $this->data->edit_table('admin',$id,$data);
+ if($type!=""){
+ $type=$this->input->post('type');
+ $data = array('role'=>$type);
+ $this->data->edit_table('admin',$id,$data);
+ }
+
+redirect(base_url("admin/admin"));
+ }
+
+public function delete_admin(){
+   $product_id = $this->input->get('id');
+   $check=$this->input->post('check');
+   if($product_id!=""){
+   $ret_value=$this->data->delete_table_row('admin',array('id'=>$product_id)); 
+   }
+
+      if(isset($check)&&$check!=""){  
+   $check=$this->input->post('check');
+   $length=count($check);
+   for($i=0;$i<$length;$i++){
+   $ret_value=$this->data->delete_table_row('admin',array('id'=>$check[$i]));    
+    }
+   }
+ $this->load->helper('url');
+ redirect('/admin/admin?success', 'refresh');
+
+  }
+
+   public function check_view_admin(){    
+    $id = $this->input->post("id");
+    $ser = $this->db->get_where("admin",array("id"=>$id,"view" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("admin",array("view" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("admin",array("view" => "1"),array("id"=>$id));
+      echo "1";
+    }    
+
+  }   
+
+/********************************************************************
+
+*********************************************************************
+
+*********************************************************************
+
+******Gen_Random_String**********************************************/
+
+public function setting(){
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info',array("id"=>2)),
+);
+  $this->load->view('setting',$this->data);
+  }
+
+public function update_setting(){
+
+$name_ar=$this->input->post('name');
+$policy=$this->input->post('policy');
+
+$keywords=$this->input->post('keywords');
+
+$metadesc=$this->input->post('metadesc');
+$name_eng=$this->input->post('name_eng');
+
+
+
+
+
+$face=$this->input->post('face');
+$twitter=$this->input->post('twitter');
+$instgram=$this->input->post('instgram');
+$google=$this->input->post('google');
+$linked=$this->input->post('linked');
+$email=$this->input->post('email');
+
+$phone=$this->input->post('phone');
+$about_footer=$this->input->post('about_footer');
+$about_footer_ar=$this->input->post('about_footer_ar');
+
+$offline_website=$this->input->post('offline_website');
+$data = array('about_footer_ar'=>$about_footer_ar,'about_footer'=>$about_footer,'phone'=>$phone,'name'=>$name_ar,'name_eng'=>$name_eng,'keywords'=>$keywords,'description'=>$metadesc,'face'=>$face,'twitter'=>$twitter,'instgram'=>$instgram,'google'=>$google,'linked'=>$linked,'email'=>$email);
+$this->db->update('site_info',$data,array('id'=>'2'));
+if($_FILES['file']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'logo'); 
+if ($logo != "") {
+     unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =10000;
+$config['max_width']            = 20000;
+$config['max_height']           = 20000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+ $this->upload->initialize($config);
+ if (!$this->upload->do_upload('file')){
+ echo $this->upload->display_errors();
+ }
+
+else {
+$url= $_FILES['file']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('logo'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+ }
+
+  }
+
+        
+
+if($_FILES['favicon']['name']!=""){
+  $favicon = $this->data->get_table_row('site_info',array(),'favicon');
+  if ($favicon != "") {
+unlink("../site/ar/images/site_setting/$favicon");
+  }
+
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =10000;
+$config['max_width']            = 20000;
+$config['max_height']           = 20000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+ $this->upload->initialize($config);
+if ( ! $this->upload->do_upload('favicon')){
+echo $this->upload->display_errors();
+}
+
+else {
+$url= $_FILES['favicon']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('favicon'=>$imagename.".".$file_extension);
+$this->data->edit_table('site_info','2',$data);
+  }
+
+}
+redirect(base_url("home/setting"));
+  }
+
+  
+
+/********************************************************************************************************
+*********************************************************************************************************
+*************************************************Start Notes Section*************************************
+*********************************************************************************************************/
+
+public  function dbrestor_action(){
+
+    $this->load->view('config/dbrestor');
+
+    }
+
+public  function dbrestor(){
+
+    $this->load->view('dbrestor');
+
+    }
+
+public  function restdb(){
+
+    $this->load->view('restdb');
+
+    }   
+
+public  function rest_db(){
+
+    $this->load->view('config/rest_db');
+
+    }
+
+
+
+/*****************************************************************************************************
+
+******************************************************************************************************
+
+***********************END SLIDER HOME & NOTESn*******************************************************
+
+******************************************************************************************************/
+
+  public function delete_gallery_article()  {    
+  $id_img = $this->uri->segment(3);
+  $row1 = $this->db->get_where("gallery_article",array("id" => $id_img))->result();
+  foreach ($row1 as $row1) {
+unlink("./site/ar/images/articles/".$row1->img);
+}
+if ($this->data->delete_table_row("gallery_article",array("id" => $id_img))) {
+redirect($_SERVER['HTTP_REFERER']);
+}
+}  
+  public function delete_gallery_accolade()
+
+  {    
+
+  $id_img = $this->uri->segment(3);
+
+  $row1 = $this->db->get_where("sub_accolade",array("id" => $id_img))->result();
+
+  foreach ($row1 as $row1) {
+
+    unlink("./site/ar/images/".$row1->img);
+
+
+
+  }
+
+  if ($this->data->delete_table_row("sub_accolade",array("id" => $id_img))) {
+
+
+
+    redirect($_SERVER['HTTP_REFERER']);
+
+
+
+  }
+
+  } 
+  public function delete_gallery_pages()
+
+  {    
+
+  $id_img = $this->uri->segment(3);
+
+  $row1 = $this->db->get_where("gallery_pages",array("id" => $id_img))->result();
+
+  foreach ($row1 as $row1) {
+
+    unlink("./site/ar/images/".$row1->img);
+
+
+
+  }  
+
+  if ($this->data->delete_table_row("gallery_pages",array("id" => $id_img))) {
+
+
+
+    redirect($_SERVER['HTTP_REFERER']);
+
+
+
+  }
+
+  }
+
+
+
+public function rose_about(){
+    $tables = "about_rose";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/rose_about'; 
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+
+
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('rose_about/rose_about',$data);
+
+  }
+
+  
+
+  
+
+public function add_roseabout(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('rose_about/add_roseabout',$this->data);
+
+  }
+
+public function roseabout_action(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+$data = array('name'=>$title,'details'=>$mapar);
+
+$this->data->insert_filed('about_rose',$data);
+
+$id = $this->db->insert_id();
+
+ 
+
+if($_FILES['file']['name']!=""){
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/about_rose/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('about_rose',$id,$data);
+
+}
+
+}
+
+$this->rose_about();
+
+  }
+
+
+
+
+
+public function aboutrose_view(){
+
+$id=$this->input->post('id');
+
+$view=$this->input->post('view');
+
+$data = array('view'=>$view);
+
+$re=$this->data->edit_table('about_rose',$id,$data);
+
+echo json_encode ($view) ;   
+
+  } 
+
+
+
+public function delete_aboutrose(){
+
+  $product_id = $this->input->get('id');
+
+  $check=$this->input->post('check');
+
+  if($product_id!=""){
+
+    $img_right = $this->data->get_table_row('about_rose',array('id'=>$product_id),'img'); 
+
+unlink("../site/ar/images/about_rose/$img_right");
+
+  $ret_value=$this->data->delete_table_row('about_rose',array('id'=>$product_id)); 
+
+    }
+
+  if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+    $img_right = $this->data->get_table_row('about_rose',array('id'=>$check[$i]),'img');  
+
+unlink("../site/ar/images/about_rose/$img_right");
+
+  $ret_value=$this->data->delete_table_row('about_rose',array('id'=>$check[$i]));     
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/rose_about?success', 'refresh');
+
+  }
+
+
+
+public function update_roseabout(){
+
+$id_lnews=$this->input->get('id');
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'),
+
+'help' => $this->data->get_table_data('about_rose',array('id'=>$id_lnews)));
+
+$this->load->view('rose_about/update_roseabout',$this->data);
+
+}
+
+
+
+public function update_rose(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+$idnews=$this->input->post('id');
+
+$data = array('name'=>$title,'details'=>$mapar);
+
+$re=$this->data->edit_table('about_rose',$idnews,$data);
+
+
+
+if($_FILES['file']['name']!=""){
+
+$img_right = $this->data->get_table_row('about_rose',array('id'=>$idnews),'img'); 
+
+unlink("../site/ar/images/about_rose/$img_right");  
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/about_rose/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('about_rose',$idnews,$data);
+
+}
+
+}
+
+
+
+$this->load->helper('url');
+
+redirect('/home/rose_about?success', 'refresh');  
+
+    }
+
+
+
+
+
+
+
+/**********************************End About****************************
+
+**********************************************************************
+
+**********************************************************************/
+
+/******************************Start Terms*****************************
+
+**********************************************************************
+
+**********************************************************************/
+
+
+
+public function term(){
+
+    $tables = "term";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/term'; 
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+
+
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('rose_about/term',$data);
+
+  }
+
+  
+
+  
+
+public function add_term(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('rose_about/add_term',$this->data);
+
+  }
+
+public function views_comment(){
+
+$this->load->view('views_comment');
+
+  } 
+
+  
+
+public function term_action(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+$data = array('name'=>$title,'details'=>$mapar);
+
+$this->data->insert_filed('term',$data);
+
+$id = $this->db->insert_id();
+
+ 
+
+if($_FILES['file']['name']!=""){
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/about_rose/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('term',$id,$data);
+
+}
+
+}
+
+$this->load->helper('url');
+
+redirect('/home/term?success', 'refresh');
+
+  }
+
+
+
+
+
+public function term_view(){
+
+$id=$this->input->post('id');
+
+$view=$this->input->post('view');
+
+$data = array('view'=>$view);
+
+$re=$this->data->edit_table('term',$id,$data);
+
+echo json_encode ($view) ;   
+
+  } 
+
+
+
+public function delete_term(){
+
+  $product_id = $this->input->get('id');
+
+  $check=$this->input->post('check');
+
+  if($product_id!=""){
+
+    $img_right = $this->data->get_table_row('term',array('id'=>$product_id),'img'); 
+
+     if($img_right!=""){  
+
+unlink("../site/ar/images/about_rose/$img_right");
+
+     }
+
+  $ret_value=$this->data->delete_table_row('term',array('id'=>$product_id)); 
+
+    }
+
+  if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+    $img_right = $this->data->get_table_row('term',array('id'=>$check[$i]),'img');  
+
+     if($img_right!=""){  
+
+unlink("../site/ar/images/about_rose/$img_right");
+
+     }
+
+  $ret_value=$this->data->delete_table_row('term',array('id'=>$check[$i]));     
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/term?success', 'refresh');
+
+  }
+
+
+
+public function update_term(){
+
+$id_lnews=$this->input->get('id');
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'),
+
+'help' => $this->data->get_table_data('term',array('id'=>$id_lnews)));
+
+$this->load->view('rose_about/update_term',$this->data);
+
+}
+
+
+
+public function update_termaction(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+$idnews=$this->input->post('id');
+
+$data = array('name'=>$title,'details'=>$mapar);
+
+$re=$this->data->edit_table('term',$idnews,$data);
+
+
+
+if($_FILES['file']['name']!=""){
+
+$img_right = $this->data->get_table_row('term',array('id'=>$idnews),'img'); 
+
+ if($img_right!=""){  
+
+unlink("../site/ar/images/about_rose/$img_right");  
+
+ }
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/about_rose/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('term',$idnews,$data);
+
+}
+
+}
+
+
+
+$this->load->helper('url');
+
+redirect('/home/term?success', 'refresh');  
+
+    }
+
+
+
+/**********************************End Term****************************
+
+**********************************************************************
+
+**********************************************************************/
+
+/******************************Start policy*****************************
+
+**********************************************************************
+
+**********************************************************************/
+
+
+
+public function policy(){
+
+    $tables = "policy";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/policy'; 
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+
+
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('rose_about/policy',$data);
+
+  }
+
+  
+
+  
+
+public function add_policy(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('rose_about/add_policy',$this->data);
+
+  }
+
+public function policy_action(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+$data = array('name'=>$title,'details'=>$mapar);
+
+$this->data->insert_filed('policy',$data);
+
+$id = $this->db->insert_id();
+
+ 
+
+if($_FILES['file']['name']!=""){
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/about_rose/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('policy',$id,$data);
+
+}
+
+}
+
+$this->load->helper('url');
+
+redirect('/home/policy?success', 'refresh');
+
+  }
+
+
+
+
+
+public function policy_view(){
+
+$id=$this->input->post('id');
+
+$view=$this->input->post('view');
+
+$data = array('view'=>$view);
+
+$re=$this->data->edit_table('policy',$id,$data);
+
+echo json_encode ($view) ;   
+
+  } 
+
+
+
+public function delete_policy(){
+
+  $product_id = $this->input->get('id');
+
+  $check=$this->input->post('check');
+
+  if($product_id!=""){
+
+    
+
+    $img_right = $this->data->get_table_row('policy',array('id'=>$product_id),'img'); 
+
+     if($img_right!=""){
+
+unlink("../site/ar/images/about_rose/$img_right");
+
+     }
+
+  $ret_value=$this->data->delete_table_row('policy',array('id'=>$product_id));
+
+   
+
+    }
+
+  if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+    
+
+    $img_right = $this->data->get_table_row('policy',array('id'=>$check[$i]),'img');  
+
+    if($img_right!=""){
+
+unlink("../site/ar/images/about_rose/$img_right");
+
+    }
+
+  $ret_value=$this->data->delete_table_row('policy',array('id'=>$check[$i]));     
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/policy?success', 'refresh');
+
+  }
+
+  public function update_pages()
+
+  {
+
+    $this->load->view('update_pages');
+
+  }
+  public function update_accolade()
+
+  {
+
+    $this->load->view('update_accolade');
+
+  }  
+  
+  public function add_accolade_img()
+
+  {
+
+    $this->load->view('accolade_img');
+
+  }
+public function update_policy(){
+
+$id_lnews=$this->input->get('id');
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'),
+
+'help' => $this->data->get_table_data('policy',array('id'=>$id_lnews)));
+
+$this->load->view('rose_about/update_policy',$this->data);
+
+}
+
+
+
+public function update_policyaction(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+$idnews=$this->input->post('id');
+
+$data = array('name'=>$title,'details'=>$mapar);
+
+$re=$this->data->edit_table('policy',$idnews,$data);
+
+
+
+if($_FILES['file']['name']!=""){
+
+$img_right = $this->data->get_table_row('term',array('id'=>$idnews),'img');
+
+ if($img_right!=""){  
+
+unlink("../site/ar/images/about_rose/$img_right");  
+
+ }
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/about_rose/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('policy',$idnews,$data);
+
+}
+
+}
+
+
+
+$this->load->helper('url');
+
+redirect('/home/policy?success', 'refresh');  
+
+    }
+
+
+
+
+
+
+
+/*********************************************************************
+
+**********************************************************************
+
+**********************************************************************/
+
+
+
+/**********************************End policy****************************
+
+**********************************************************************
+
+**********************************************************************/
+
+/******************************Start Videos*****************************
+
+**********************************************************************
+
+**********************************************************************/
+
+
+
+public function videos(){
+
+    $tables = "videos";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/videos'; 
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+
+
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('rose_about/videos',$data);
+
+  }
+
+  
+
+  
+
+public function add_video(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('rose_about/add_video',$this->data);
+
+  }
+
+public function video_action(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+date_default_timezone_set("Africa/Cairo");
+
+$dattx=date('Y-m-d');
+
+$date=date("Y-m-d",strtotime($dattx));
+
+$data = array('name'=>$title,'link'=>$mapar,'date'=>$date);
+
+$this->data->insert_filed('videos',$data);
+
+
+
+$id = $this->db->insert_id();
+
+ 
+
+if($_FILES['file']['name']!=""){
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/videos/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('videos',$id,$data);
+
+}
+
+}
+
+
+
+
+
+$this->load->helper('url');
+
+redirect('/home/videos?success', 'refresh');
+
+  }
+
+
+
+
+
+public function video_view(){
+
+$id=$this->input->post('id');
+
+$view=$this->input->post('view');
+
+$data = array('view'=>$view);
+
+$re=$this->data->edit_table('videos',$id,$data);
+
+echo json_encode ($view) ;   
+
+  } 
+
+
+
+public function delete_video(){
+
+  $product_id = $this->input->get('id');
+
+
+
+  
+
+  $check=$this->input->post('check');
+
+  if($product_id!=""){
+
+$img_right = $this->data->get_table_row('videos',array('id'=>$product_id),'img');
+
+if($img_right!=""){ 
+
+unlink("../site/ar/images/videos/$img_right");  
+
+}
+
+$ret_value=$this->data->delete_table_row('videos',array('id'=>$product_id));
+
+   
+
+    }
+
+  if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+$img_right = $this->data->get_table_row('videos',array('id'=>$check[$i]),'img');
+
+if($img_right!=""){ 
+
+unlink("../site/ar/images/videos/$img_right");  
+
+}
+
+$ret_value=$this->data->delete_table_row('videos',array('id'=>$check[$i]));     
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/videos?success', 'refresh');
+
+  }
+
+
+
+public function update_video(){
+
+$id_lnews=$this->input->get('id');
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'),
+
+'help' => $this->data->get_table_data('videos',array('id'=>$id_lnews)));
+
+$this->load->view('rose_about/update_video',$this->data);
+
+}
+
+
+
+public function update_videoaction(){
+
+$title=$this->input->post('title');
+
+$mapar=$this->input->post('mapar');
+
+$idnews=$this->input->post('id');
+
+date_default_timezone_set("Africa/Cairo");
+
+$dattx=date('Y-m-d');
+
+$date=date("Y-m-d",strtotime($dattx));
+
+
+
+$data = array('name'=>$title,'link'=>$mapar,'date'=>$date);
+
+$re=$this->data->edit_table('videos',$idnews,$data);
+
+
+
+if($_FILES['file']['name']!=""){
+
+$img_right = $this->data->get_table_row('videos',array('id'=>$idnews),'img');
+
+ if($img_right!=""){  
+
+unlink("../site/ar/images/videos/$img_right");  
+
+ }
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = '../site/ar/images/videos/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+if ( ! $this->upload->do_upload('file')){
+
+$this->rose_about();   
+
+}
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+$data = array('img'=>$imagename.".".$file_extension);
+
+$this->data->edit_table('videos',$idnews,$data);
+
+}
+
+}
+
+
+
+
+
+$this->load->helper('url');
+
+redirect('/home/videos?success', 'refresh');  
+
+}
+/********************************************************************************************************
+*********************************************************************************************************
+********************************Main Category********************************************************
+*********************************************************************************************************/
+
+
+public function add_user(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('add_user',$this->data);
+
+}
+
+
+
+
+public function pages_action(){
+$this->load->view('config/pages_action');
+}
+public function accolade_action(){
+
+$this->load->view('config/accolade_action');
+
+}
+
+
+
+public function pages(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('pages',$this->data);
+
+}
+
+/**************************************************************************************
+
+***********************************Start Sub Values************************************
+
+****************************************Start Articles**********************************/
+
+
+
+public function articles(){
+    $tables = "articles";
+    $config = array();
+    $config['base_url'] = base_url().'home/articles'; 
+    $config['total_rows'] = $this->data->record_count($tables,array(),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('articles/articles',$data);
+  }
+
+  public function search_articles(){
+
+    $tables = "articles";
+    $title = $this->input->post("search");
+    $config = array();
+
+    $config['base_url'] = base_url().'home/search_articles'; 
+    $this->db->like('title', $title);
+    $this->db->order_by('id', 'desc');
+    $config['total_rows'] = $this->db->get($tables)->num_rows();
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+    $this->db->like('title', $title);
+    $this->db->order_by('id', 'desc');
+$rs = $this->db->get($tables);
+
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data_search($tables,$title, array(), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('articles/search_articles',$data);
+
+  }
+  
+  
+
+
+
+public function add_article(){
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('articles/add_article',$this->data);
+}
+
+
+
+
+
+public function get_state(){
+$this->load->view('articles/get_state');
+  }
+
+  public function article_action(){
+$this->load->view('articles/article_action');
+  }
+
+  
+
+   public function check_view_articles()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("articles",array("id"=>$id,"views" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("articles",array("views" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("articles",array("views" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }
+
+   public function check_view_vote()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("vote_content",array("id"=>$id,"view" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("vote_content",array("view" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("vote_content",array("view" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }  
+
+   public function check_view_pages()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("committees",array("id"=>$id,"view" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("committees",array("view" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("committees",array("view" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }  
+
+   public function check_view_services()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("services",array("id"=>$id,"view" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("services",array("view" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("services",array("view" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }  
+   public function check_view_accolade()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("accolade",array("id"=>$id,"view" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("accolade",array("view" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("accolade",array("view" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  } 
+   public function check_view_haram()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("haram_job",array("id"=>$id,"view" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("haram_job",array("view" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("haram_job",array("view" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }  
+
+   public function check_view_comments()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("comments",array("id"=>$id,"active" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("comments",array("active" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("comments",array("active" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }
+
+
+     public function check_view_videos()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("news_videos",array("id"=>$id,"view" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("news_videos",array("view" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("news_videos",array("view" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }
+
+
+     public function check_view_rss()
+
+  {    
+
+    $id = $this->input->post("id");
+
+    $ser = $this->db->get_where("rss",array("id"=>$id,"view" => "1"))->num_rows();
+
+    if ($ser == 1) {
+
+      $this->db->update("rss",array("view" => "0"),array("id"=>$id));
+
+
+
+      echo "0";
+
+    }
+
+    if ($ser == 0) {
+
+      $this->db->update("rss",array("view" => "1"),array("id"=>$id));
+
+      echo "1";
+
+    }    
+
+  }  
+     public function check_view_authors()
+  {    
+$id = $this->input->post("id");
+ $ser = $this->db->get_where("authors",array("id"=>$id,"active" => "1"))->num_rows();
+if ($ser == 1) {
+$this->db->update("authors",array("active" => "0"),array("id"=>$id));
+echo "0";
+ }
+if ($ser == 0) {
+$this->db->update("authors",array("active" => "1"),array("id"=>$id));
+      echo "1";
+    }    
+
+  }
+
+public function delete_articles(){
+  $product_id = $this->input->get('id');
+  $check=$this->input->post('check');
+  if($product_id!=""){
+$img_right = $this->data->get_table_row('articles',array('id'=>$product_id),'img'); 
+if($img_right!=""){
+@unlink("../site/ar/images/articles/$img_right");
+     }
+$img_right1 = $this->data->get_table_row('gallery_article',array('id'=>$product_id),'img'); 
+if($img_right1!=""){
+@unlink("../site/ar/images/articles/$img_right1");
+    }    
+ $ret_value=$this->data->delete_table_row('articles',array('id'=>$product_id));
+$this->data->delete_table_row("comments",array('id_article'=>$product_id));
+    }
+
+  if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+ $img_right = $this->data->get_table_row('articles',array('id'=>$check[$i]),'img');  
+    if($img_right!=""){
+@unlink("../site/ar/images/articles/$img_right");
+    }
+$img_right1 = $this->data->get_table_row('gallery_article',array('id'=>$check[$i]),'img');  
+if($img_right1!=""){
+@unlink("../site/ar/images/articles/$img_right1");
+    }
+$ret_value=$this->data->delete_table_row('articles',array('id'=>$check[$i])); 
+   $this->data->delete_table_row("comments",array('id'=>$check[$i]));
+}
+}
+$this->load->helper('url');
+redirect('/home/articles?success', 'refresh');
+
+  }
+
+public function delete_vote(){
+
+  $product_id = $this->input->get('id');
+
+  $check=$this->input->post('check');
+
+  if($product_id!=""){
+
+ 
+
+  $ret_value=$this->data->delete_table_row('vote_content',array('id'=>$product_id));
+
+   
+
+    }
+
+  if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+    
+
+  $ret_value=$this->data->delete_table_row('vote_content',array('id'=>$check[$i]));     
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/vote?success', 'refresh');
+
+  }
+
+
+
+
+
+public function update_article(){
+$id_lnews=$this->input->get('id');
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'),
+'articles' => $this->data->get_table_data('articles',array('id'=>$id_lnews)));
+$this->load->view('articles/update_article',$this->data);
+}
+
+
+
+public function update_articles()
+
+{
+$title=$this->input->post('title');
+    $description=$this->input->post('description');
+    $date=$this->input->post('date');
+    $short_description=$this->input->post('short_description');
+    $meta_keywords=$this->input->post('meta_keywords');
+    $meta_description=$this->input->post('meta_description');
+  $idnews=$this->input->post('id');
+    $titleeng=$this->input->post('titleeng');
+    $short_descriptioneng=$this->input->post('short_descriptioneng');
+    $descriptioneng=$this->input->post('descriptioneng');
+    $sel=$this->input->post('sel');
+    $link=$this->input->post('link');
+    $video=$this->input->post('video');
+    $date=$this->input->post('date');
+
+
+    if($sel == "link" and $link != "")
+
+    {
+if ($this->db->get_where('link',array('id_article'=>$idnews,'type'=>'0'))->num_rows() > 0) {
+        $this->db->update('link',array("link"=>$link),array('id_article'=>$idnews,'type'=>'0'));
+      }else{
+        $this->db->insert('link',array("link"=>$link,'id_article'=>$idnews,'type'=>'0'));
+      }
+ $this->data->delete_table_row('gallery_article',array('id_article'=>$idnews,'type'=>'0'));
+      $this->data->delete_table_row('video',array('id_article'=>$idnews,'type'=>'0'));
+}
+
+    if($sel == "video" and $video != "")
+
+    {
+
+      if ($this->db->get_where('video',array('id_article'=>$idnews,'type'=>'0'))->num_rows() > 0) {
+
+        $this->db->update('video',array("video"=>$video),array('id_article'=>$idnews,'type'=>'0'));
+
+      }else{
+
+        $this->db->insert('video',array("video"=>$video,'id_article'=>$idnews,'type'=>'0'));
+
+      }
+
+      $this->data->delete_table_row('gallery_article',array('id_article'=>$idnews,'type'=>'0'));
+
+      $this->data->delete_table_row('link',array('id_article'=>$idnews,'type'=>'0'));
+
+
+
+    }
+
+
+
+
+
+    $data = array('title'=>$title,'description'=>$description,'type'=>$sel,'titleeng'=>$titleeng,'meta_keywords'=>$meta_keywords,'meta_description'=>$meta_description,'type'=>$sel,'short_description'=>$short_description,"short_descriptioneng"=>$short_descriptioneng,'descriptioneng'=>$descriptioneng);
+    $re=$this->data->edit_table('articles',$idnews,$data);
+
+    if($_FILES['main_img']['name']!=""){
+    $img_right = $this->data->get_table_row('articles',array('id'=>$idnews),'img'); 
+    $img_name=$this->gen_random_string(); 
+    $imagename = $img_name;
+    $config['upload_path'] = '../site/ar/images/articles/';
+    $config['allowed_types']        = 'gif|jpg|png';
+    $config['max_size']             =100000;
+    $config['max_width']            =100000;
+    $config['max_height']           =100000;
+
+    $config['file_name'] = $imagename; 
+    $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+    if (!$this->upload->do_upload('main_img')){
+	 echo $this->upload->display_errors();
+    }
+
+    else {
+    $url= $_FILES['main_img']['name'];
+    $ext = explode(".",$url);
+    $file_extension = end($ext);
+    @unlink("../site/ar/images/articles/$img_right"); 
+    $data = array('img'=>$imagename.".".$file_extension);
+    $this->data->edit_table('articles',$idnews,$data);
+    }
+
+    }
+      $send['idnews'] = $idnews; 
+    if($sel == "slider")
+
+    {
+      $this->data->delete_table_row('video',array('id_article'=>$idnews,'type'=>'0'));
+      $this->data->delete_table_row('link',array('id_article'=>$idnews,'type'=>'0'));
+        $this->load->view('code_img',$send);
+		}
+ $this->load->helper('url');
+redirect('/home/articles?success', 'refresh');  
+}
+
+public function add_img_action(){
+ $title=$this->input->post('title');
+    $id=$this->input->post('id');
+    $data['title'] = $title;
+    $data['id_accolade'] = $id;
+
+ if ($_FILES['main_img']['name'] != "") {
+                $config['upload_path']          = 'site/ar/images/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                $this->upload->do_upload('main_img');
+                $data1['main_img'] = $this->upload->data();
+                $photo = $data1['main_img']['file_name'];
+                $data['img'] = $photo;
+        }
+$this->db->insert("sub_accolade",$data);
+    redirect('/home/accolade?success', 'refresh'); 
+ }     
+
+public function update_pages_action(){
+
+
+
+
+
+    $idnews=$this->input->post('id');
+    $name=$this->input->post('name');
+    $data['name'] = $name;
+
+
+
+
+
+    $re=$this->data->edit_table('committees',$idnews,$data);
+
+
+
+    $this->load->helper('url');
+
+    redirect('/home/pages?success', 'refresh'); 
+
+
+
+}
+public function user_action(){
+
+
+
+
+
+    $idnews=$this->input->post('id');
+    $name=$this->input->post('name');
+    $description=$this->input->post('description');
+    $data['name'] = $name;
+    $data['id_committees'] = $idnews;
+    $data['description'] = $description;
+
+
+
+
+
+    $re=$this->db->insert('committees_users',$data);
+
+
+
+    $this->load->helper('url');
+
+    redirect($_SERVER['HTTP_REFERER']);
+
+
+
+}
+public function services_action(){
+
+    $name=$this->input->post('name');
+    $link=$this->input->post('link');
+    $data['link'] = $link;
+    $data['name'] = $name;
+
+
+if(@$_FILES['file']['name']!=""){
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = 'site/ar/images/';
+
+$config['allowed_types']        = 'psd|pdf|dox|gif|jpg|png';
+
+$config['max_size']             =1000000;
+
+
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+                $this->upload->initialize($config);
+
+
+
+
+
+ if ( ! $this->upload->do_upload('file')){
+
+ }
+
+ 
+
+else {
+
+$url= $_FILES['file']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+
+
+$data['file'] = $imagename.".".$file_extension;
+
+
+
+  }
+
+  }
+
+
+    $re=$this->db->insert('services',$data);
+
+
+
+    $this->load->helper('url');
+
+redirect('/home/services?success', 'refresh');
+
+
+
+}
+
+public function delete_user(){
+
+
+
+
+
+    $idnews=$this->uri->segment(3);
+
+
+
+
+
+
+    $re=$this->db->delete('committees_users',array("id"=>$idnews));
+
+
+
+    $this->load->helper('url');
+
+    redirect($_SERVER['HTTP_REFERER']);
+
+
+
+}
+
+
+public function news_videos(){
+
+    $tables = "news_videos";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/news_videos';  
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+
+
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('articles/news_videos',$data);
+
+  }
+public function rss(){
+
+    $tables = "rss";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/rss';  
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+
+
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('articles/rss',$data);
+
+  }
+
+public function add_videos(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('articles/add_videos',$this->data);
+
+  }
+public function add_rss(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('articles/add_rss',$this->data);
+
+  }
+
+public function rss_action(){
+
+$site_name=$this->input->post('site_name');
+
+$link=$this->input->post('link');
+$selector_name=$this->input->post('selector_name');
+
+$data['site_name'] = $site_name;
+
+$data['link'] = $link;
+$data['selector_name'] = $selector_name;
+
+$this->data->insert_filed('rss',$data);
+
+redirect('/home/rss?success', 'refresh');
+
+  }
+public function videos_action(){
+
+$title=$this->input->post('title');
+
+$link=$this->input->post('link');
+$view_news=$this->input->post('view_news');
+
+$data['title'] = $title;
+
+$data['link'] = $link;
+$data['view_news'] = $view_news;
+
+$this->data->insert_filed('news_videos',$data);
+
+redirect('/home/news_videos?success', 'refresh');
+
+  }
+
+
+
+public function update_rss(){
+
+$id_lnews=$this->input->get('id');
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'),
+
+'help' => $this->data->get_table_data('rss',array('id'=>$id_lnews)));
+
+$this->load->view('articles/update_rss',$this->data);
+
+}
+
+
+
+
+public function update_videos1(){
+
+$id_lnews=$this->input->get('id');
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'),
+
+'help' => $this->data->get_table_data('news_videos',array('id'=>$id_lnews)));
+
+$this->load->view('articles/update_videos1',$this->data);
+
+}
+
+public function update_rssaction(){
+
+$idnews=$this->input->post('id');
+
+$site_name=$this->input->post('site_name');
+
+$link=$this->input->post('link');
+$selector_name=$this->input->post('selector_name');
+
+$data['site_name'] = $site_name;
+
+$data['link'] = $link;
+$data['selector_name'] = $selector_name;
+
+$re=$this->data->edit_table('rss',$idnews,$data);
+
+$this->load->helper('url');
+
+redirect('/home/rss?success', 'refresh'); 
+
+}
+
+public function update_videosaction(){
+
+$idnews=$this->input->post('id');
+
+$title=$this->input->post('title');
+
+$link=$this->input->post('link');
+$view_news=$this->input->post('view_news');
+
+$data['title'] = $title;
+
+$data['link'] = $link;
+$data['view_news'] = $view_news;
+
+$re=$this->data->edit_table('news_videos',$idnews,$data);
+
+$this->load->helper('url');
+
+redirect('/home/news_videos?success', 'refresh'); 
+
+}
+
+public function writers(){
+
+    $tables = "authors";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/writers';  
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+
+
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('articles/writers',$data);
+
+  }
+
+
+
+
+
+
+
+public function writer_view(){
+
+$id=$this->input->post('id');
+
+$view=$this->input->post('view');
+
+$data = array('view'=>$view);
+
+$re=$this->data->edit_table('writers',$id,$data);
+
+echo json_encode ($view) ;
+
+
+
+}     
+
+public function delete_rss(){
+
+
+
+$product_id = $this->input->get('id');
+
+$check=$this->input->post('check');
+
+if($product_id!=""){
+
+$this->data->delete_table_row('rss',array('id'=>$product_id)); 
+
+  }
+
+if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+$this->data->delete_table_row('rss',array('id'=>$check[$i]));     
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/rss?success', 'refresh');
+
+  
+
+}
+public function delete_services(){
+
+
+
+$product_id = $this->input->get('id');
+
+$check=$this->input->post('check');
+
+if($product_id!=""){
+
+$this->data->delete_table_row('services',array('id'=>$product_id)); 
+
+  }
+
+if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+$this->data->delete_table_row('services',array('id'=>$check[$i]));     
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/services?success', 'refresh');
+
+  
+
+}
+
+public function delete_videos1(){
+$product_id = $this->input->get('id');
+$check=$this->input->post('check');
+if($product_id!=""){
+$this->data->delete_table_row('news_videos',array('id'=>$product_id)); 
+  }
+
+if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+$this->data->delete_table_row('news_videos',array('id'=>$check[$i]));     
+  }
+   }
+$this->load->helper('url');
+redirect('/home/news_videos?success', 'refresh');
+}
+
+
+public function delete_writer(){
+$product_id = $this->input->get('id');
+$check=$this->input->post('check');
+if($product_id!=""){
+$this->data->delete_table_row('authors',array('id'=>$product_id)); 
+  }
+
+if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+$this->data->delete_table_row('authors',array('id'=>$check[$i]));     
+  }
+}
+
+$this->load->helper('url');
+redirect('/home/writers?success', 'refresh');
+}
+
+public function delete_articles_form_slider(){
+$id = $this->input->get('id');
+$check=$this->input->post('check');
+if($id!=""){
+      $this->db->update("articles",array("status_view" => "0"),array("id"=>$id));
+}
+
+if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+    $this->db->update("articles",array("status_view" => "0"),array("id"=>$check[$i]));
+        }
+}
+
+$this->load->helper('url');
+
+redirect('/home/slider?success', 'refresh');
+
+  
+
+}
+
+public function delete_articles_form_news(){
+
+
+
+$id = $this->input->get('id');
+
+$check=$this->input->post('check');
+
+if($id!=""){
+
+      $this->db->update("articles",array("status_view" => "0"),array("id"=>$id));
+
+  }
+
+if(isset($check)&&$check!=""){  
+
+  $check=$this->input->post('check');
+
+  $length=count($check);
+
+  for($i=0;$i<$length;$i++){
+
+    $this->db->update("articles",array("status_view" => "0"),array("id"=>$check[$i]));
+
+
+
+  }
+
+
+
+   }
+
+$this->load->helper('url');
+
+redirect('/home/slider?success', 'refresh');
+
+  
+
+}
+
+
+
+public function add_writer(){
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'));
+
+$this->load->view('articles/add_writer',$this->data);
+
+  }
+
+
+
+public function writer_action(){
+
+$title=$this->input->post('title');
+
+$description=$this->input->post('description');
+
+if(@$_FILES['img_authors']['name']!=""){
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = 'site/ar/images/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+                $this->upload->initialize($config);
+
+
+
+
+
+ if ( ! $this->upload->do_upload('img_authors')){
+
+ }
+
+ 
+
+else {
+
+$url= $_FILES['img_authors']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+
+
+$data['img'] = $imagename.".".$file_extension;
+
+
+
+  }
+
+  }
+
+$data['name'] = $title;
+
+$data['description'] = $description;
+
+
+
+$this->data->insert_filed('authors',$data);
+
+
+
+$id = $this->db->insert_id();
+
+$this->load->helper('url');
+
+redirect('/home/writers?success', 'refresh');
+
+  }
+
+
+
+
+
+
+
+public function update_writer(){
+
+$id_lnews=$this->input->get('id');
+
+$this->data = array(
+
+'num_admin'=> $this->data->get_table_data('admin'),
+
+'site_info'=> $this->data->get_table_data('site_info'),
+
+'help' => $this->data->get_table_data('authors',array('id'=>$id_lnews)));
+
+$this->load->view('articles/update_writer',$this->data);
+
+}
+
+
+
+public function update_writeraction(){
+
+$idnews=$this->input->post('id');
+
+$title=$this->input->post('title');
+
+$description=$this->input->post('description');
+
+if(@$_FILES['img_authors']['name']!=""){
+
+$logo = $this->data->get_table_row('authors',array("id"=>$idnews),'img'); 
+
+  if ($logo != "") {
+
+unlink("site/ar/images/$logo");
+
+}
+
+$img_name=$this->gen_random_string(); 
+
+$imagename = $img_name;
+
+$config['upload_path'] = 'site/ar/images/';
+
+$config['allowed_types']        = 'gif|jpg|png';
+
+$config['max_size']             =100000;
+
+$config['max_width']            =100000;
+
+$config['max_height']           =100000;
+
+$config['file_name'] = $imagename; 
+
+$this->load->library('upload', $config);
+
+                $this->upload->initialize($config);
+
+
+
+
+
+ if ( ! $this->upload->do_upload('img_authors')){
+
+ }
+
+ 
+
+else {
+
+$url= $_FILES['img_authors']['name'];
+
+$ext = explode(".",$url);
+
+$file_extension = end($ext);
+
+
+
+$data['img'] = $imagename.".".$file_extension;
+
+
+
+  }
+
+  }
+
+$data['name'] = $title;
+
+$data['description'] = $description;
+
+$re=$this->data->edit_table('authors',$idnews,$data);
+
+$this->load->helper('url');
+
+redirect('/home/writers?success', 'refresh'); 
+
+}
+
+/**********************************Our News**********************************************/
+
+public function news(){
+
+    $tables = "articles";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/news'; 
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$this->db->where("status_view", "2");
+
+$this->db->or_where('status_view', "3");
+
+$rs = $this->db->get($tables);
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+
+
+$this->db->where("status_view", "2");
+
+$this->db->or_where('status_view', "3");
+
+$data["results"] = $this->db->get($tables)->result();
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('news/news',$data);
+
+  }
+
+public function main(){
+
+    $tables = "articles";
+
+    $config = array();
+
+    $config['base_url'] = base_url().'home/main'; 
+
+    $config['total_rows'] = $this->data->record_count($tables);
+
+    $config['per_page'] =20;
+
+    $config['full_tag_open'] = '<ul class="pagination">';
+
+    $config['full_tag_close'] = '</ul>';   
+
+    $config['last_link'] = '»»';
+
+    $config['last_tag_open'] = '<li>';
+
+    $config['last_tag_close'] = '</li>';
+
+    $config['first_link'] = '««';
+
+    $config['first_tag_open'] = '<li>';
+
+    $config['first_tag_close'] = '</li>';
+
+    $config['prev_link'] = '«';
+
+    $config['prev_tag_open'] = '<li>';
+
+    $config['prev_tag_close'] = '</li>';
+
+    $config['next_link'] = '»';
+
+    $config['next_tag_open'] = '<li>';
+
+    $config['next_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class="active"><a>';
+
+    $config['cur_tag_close'] = '</a></li>';
+
+    $config['num_tag_open'] = '<li>';
+
+    $config['num_tag_close'] = '</li>';
+
+    $this->pagination->initialize($config);
+
+if($this->uri->segment(3)){
+
+$page = ($this->uri->segment(3)) ;
+
+}
+
+else{
+
+$page =0;
+
+}
+
+$rs = $this->db->get_where($tables,array('status_view'=>'4'));
+
+if($rs->num_rows() == 0):
+
+$data["results"] = array();
+
+$data["links"] = array();
+
+
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+else:
+
+$data['num_admin']= $this->data->get_table_data('admin');
+
+$data['site_info']= $this->data->get_table_data('site_info');
+
+$data["results"] = $this->data->view_all_data($tables, array('status_view'=>'4'), $config["per_page"], $page);
+
+$str_links = $this->pagination->create_links();
+
+$data["links"] = explode('&nbsp;',$str_links);
+
+endif;
+
+$this->load->view('main',$data);
+
+  }
+
+
+
+
+
+
+
+
+public function store_messages()
+
+{
+
+  $this->data = array(
+
+  'num_admin'=> $this->data->get_table_data('admin'),
+
+  'site_info'=> $this->data->get_table_data('site_info'));
+
+  $this->load->view('messages',$this->data);
+
+}
+
+public function view_messages()
+
+{
+
+  $this->data = array(
+
+  'num_admin'=> $this->data->get_table_data('admin'),
+
+  'site_info'=> $this->data->get_table_data('site_info'));
+
+  $this->db->update('messages',array("view"=>"1"),array('id'=>$this->input->get("id")));
+
+
+
+  $this->load->view('view_messages',$this->data);
+
+}
+
+public function delete_messages() {
+
+  $id=$this->input->get('id');
+
+
+
+     $re=$this->data->delete_table_row('messages',array('id'=>$id));
+
+
+
+
+
+$check=$this->input->post('check');
+
+if(isset($check)&&$check!=""){
+
+$check=$this->input->post('check');
+
+$length=count($check);
+
+for($i=0;$i<$length;$i++){
+
+     $ret_value=$this->data->delete_table_row('messages',array('id'=>$check[$i]));
+
+  }
+}
+redirect(base_url("home/store_messages"));
+}
+
+
+
+
+
+
+
+
+
+
+
+// display comments
+
+public function comments()
+
+{
+
+  $this->data = array(
+
+  'num_admin'=> $this->data->get_table_data('admin'),
+
+  'site_info'=> $this->data->get_table_data('site_info'));
+
+  $this->load->view('comments',$this->data);
+
+}
+
+
+
+
+
+// delete comment or comments
+
+public function delete_comment()
+
+{
+
+  $this->load->view('config/delete_comment'); 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// acticvation for comeents
+
+
+
+public function active_comment()
+
+{
+
+  $id=$this->input->post('id');
+
+  $view=$this->input->post('view');
+
+  $data = array('active'=>$view);
+
+  $re=$this->data->edit_table('comment',$id,$data);
+
+  echo json_encode ($view) ;  
+
+}     
+/************* 19-12-2017 ************/
+
+
+
+
+public function events(){
+    $tables = "events";
+    $config = array();
+    $config['base_url'] = base_url().'home/events'; 
+    $config['total_rows'] = $this->data->record_count($tables,array(),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('events/events',$data);
+  }
+
+
+public function add_events(){
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('events/add_events',$this->data);
+}
+ public function events_action(){
+$this->load->view('events/events_action');
+  }
+
+
+
+public function delete_events(){
+  $product_id = $this->input->get('id');
+  $check=$this->input->post('check');
+  if($product_id!=""){
+$img_right = $this->data->get_table_row('events',array('id'=>$product_id),'img'); 
+if($img_right!=""){
+@unlink("../site/ar/images/events/$img_right");
+     }
+$img_right1 = $this->data->get_table_row('gallery_article',array('id_article'=>$product_id,'type'=>'1'),'img'); 
+if($img_right1!=""){
+@unlink("../site/ar/images/events/$img_right1");
+    }    
+ $ret_value=$this->data->delete_table_row('events',array('id'=>$product_id));
+    }
+
+  if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+ $img_right = $this->data->get_table_row('events',array('id'=>$check[$i]),'img');  
+    if($img_right!=""){
+@unlink("../site/ar/images/events/$img_right");
+    }
+$img_right1 = $this->data->get_table_row('gallery_article',array('id_article'=>$check[$i],'type'=>'1'),'img');  
+if($img_right1!=""){
+@unlink("../site/ar/images/events/$img_right1");
+    }
+$ret_value=$this->data->delete_table_row('events',array('id'=>$check[$i])); 
+}
+}
+$this->load->helper('url');
+redirect('/home/events?success', 'refresh');
+
+  }
+  
+  public function check_view_events()
+
+  {    
+    $id = $this->input->post("id");
+    $ser = $this->db->get_where("events",array("id"=>$id,"views" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("events",array("views" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("events",array("views" => "1"),array("id"=>$id));
+      echo "1";
+    }    
+  }
+
+
+
+public function update_events(){
+$id_lnews=$this->input->get('id');
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'),
+'articles' => $this->data->get_table_data('events',array('id'=>$id_lnews)));
+$this->load->view('events/update_events',$this->data);
+}
+
+public function update_events_action(){
+$title=$this->input->post('title');
+    $description=$this->input->post('description');
+    $date=$this->input->post('date');
+    $short_description=$this->input->post('short_description');
+    $meta_keywords=$this->input->post('meta_keywords');
+    $meta_description=$this->input->post('meta_description');
+  $idnews=$this->input->post('id');
+    $titleeng=$this->input->post('titleeng');
+    $short_descriptioneng=$this->input->post('short_descriptioneng');
+    $descriptioneng=$this->input->post('descriptioneng');
+    $sel=$this->input->post('sel');
+    $link=$this->input->post('link');
+    $video=$this->input->post('video');
+    $date=$this->input->post('date');
+
+
+    if($sel == "link" and $link != "")
+
+    {
+if ($this->db->get_where('link',array('id_article'=>$idnews,'type'=>'1'))->num_rows() > 0) {
+        $this->db->update('link',array("link"=>$link),array('id_article'=>$idnews,'type'=>'1'));
+      }else{
+        $this->db->insert('link',array("link"=>$link,'id_article'=>$idnews,'type'=>'1'));
+      }
+ $this->data->delete_table_row('gallery_article',array('id_article'=>$idnews,'type'=>'1'));
+      $this->data->delete_table_row('video',array('id_article'=>$idnews,'type'=>'1'));
+}
+
+    if($sel == "video" and $video != "")
+
+    {
+
+      if ($this->db->get_where('video',array('id_article'=>$idnews,'type'=>'1'))->num_rows() > 0) {
+
+        $this->db->update('video',array("video"=>$video),array('id_article'=>$idnews,'type'=>'1'));
+
+      }else{
+
+        $this->db->insert('video',array("video"=>$video,'id_article'=>$idnews,'type'=>'1'));
+
+      }
+
+      $this->data->delete_table_row('gallery_article',array('id_article'=>$idnews,'type'=>'1'));
+
+      $this->data->delete_table_row('link',array('id_article'=>$idnews,'type'=>'1'));
+
+
+
+    }
+
+
+
+
+
+    $data = array('title'=>$title,'description'=>$description,'type'=>$sel,'titleeng'=>$titleeng,'meta_keywords'=>$meta_keywords,'meta_description'=>$meta_description,'type'=>$sel,'short_description'=>$short_description,"short_descriptioneng"=>$short_descriptioneng,'descriptioneng'=>$descriptioneng);
+    $re=$this->data->edit_table('events',$idnews,$data);
+
+
+
+    if($_FILES['main_img']['name']!=""){
+
+    $img_right = $this->data->get_table_row('events',array('id'=>$idnews),'img'); 
+
+    $img_name=$this->gen_random_string(); 
+
+    $imagename = $img_name;
+
+    $config['upload_path'] = './../site/ar/images/events/';
+
+    $config['allowed_types']        = 'gif|jpg|png';
+
+    $config['max_size']             =100000;
+
+    $config['max_width']            =100000;
+
+    $config['max_height']           =100000;
+
+    $config['file_name'] = $imagename; 
+
+    $this->load->library('upload', $config);
+
+        $this->upload->initialize($config);
+
+
+
+    if (!$this->upload->do_upload('main_img')){
+
+    }
+
+    else {
+
+    $url= $_FILES['main_img']['name'];
+
+    $ext = explode(".",$url);
+
+    $file_extension = end($ext);
+
+    @unlink("../../site/ar/images/events/$img_right"); 
+
+
+
+    $data = array('img'=>$imagename.".".$file_extension);
+
+    $this->data->edit_table('articles',$idnews,$data);
+
+    }
+
+    }
+      $send['idnews'] = $idnews; 
+    if($sel == "slider")
+
+    {
+      $this->data->delete_table_row('video',array('id_article'=>$idnews,'type'=>'1'));
+      $this->data->delete_table_row('link',array('id_article'=>$idnews,'type'=>'1'));
+        $this->load->view('code_img',$send);
+		}
+ $this->load->helper('url');
+redirect('/home/events?success', 'refresh');  
+}
+
+
+
+public function about_us(){
+$this->data = array(
+'mainpage'=> $this->data->get_table_data('site_info'));	
+$this->load->view('about_us',$this->data);
+}
+
+
+
+
+
+
+
+
+public function update_aboutus(){
+$about_tar=$this->input->post('about_tar');
+$about_t=$this->input->post('about_t');
+$about_desar=$this->input->post('about_desar');
+$about_des=$this->input->post('about_des');
+$img_descar=$this->input->post('img_descar');
+$img_desc=$this->input->post('img_desc');
+$img_tar=$this->input->post('img_tar');
+$img_t=$this->input->post('img_t');
+
+$block1=$this->input->post('block1');
+$block2=$this->input->post('block2');
+$block3=$this->input->post('block3');
+$block1ar=$this->input->post('block1ar');
+$block2ar=$this->input->post('block2ar');
+$block3ar=$this->input->post('block3ar');
+
+
+
+$btitle1=$this->input->post('btitle1');
+$btitle2=$this->input->post('btitle2');
+$btitle3=$this->input->post('btitle3');
+$btitle_ar1=$this->input->post('btitle_ar1');
+$btitle_ar2=$this->input->post('btitle_ar2');
+$btitle_ar3=$this->input->post('btitle_ar3');
+
+
+$data = array('about_t'=>$about_t,'about_tar'=>$about_tar,'about_desar'=>$about_desar,'about_des'=>$about_des,'img_desc'=>$img_desc,'img_descar'=>$img_descar,'img_tar'=>$img_tar,'img_t'=>$img_t,'block1'=>$block1,'block2'=>$block2,'block3'=>$block3,'block1ar'=>$block1ar,'block2ar'=>$block2ar,'block3ar'=>$block3ar,'btitle1'=>$btitle1,'btitle2'=>$btitle2,'btitle3'=>$btitle3,'btitle_ar1'=>$btitle_ar1,'btitle_ar2'=>$btitle_ar2,'btitle_ar3'=>$btitle_ar3,);
+$re=$this->data->edit_table('site_info','2',$data);
+
+
+if($_FILES['img_about']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'img_about'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('img_about')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['img_about']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('img_about'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+
+  }
+
+  
+if($_FILES['b2']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'b2'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('b2')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['b2']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('b2'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+
+  }  
+  
+   
+if($_FILES['b3']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'b3'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('b3')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['b3']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('b3'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+  }
+
+
+if($_FILES['b1']['name']!=""){
+$logo = $this->data->get_table_row('site_info',array(),'b1'); 
+if ($logo != "") {
+unlink("../site/ar/images/site_setting/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/site_setting/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =600000;
+$config['max_width']            = 600000;
+$config['max_height']           = 600000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('b1')){
+echo $this->upload->display_errors();
+ }
+else {
+$url= $_FILES['b1']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('b1'=>$imagename.".".$file_extension);
+$this->db->update('site_info',$data,array('id'=>'2'));
+  }
+
+  }
+
+
+
+
+$this->load->helper('url');
+redirect('/home/about_us?success', 'refresh');  
+}
+
+
+public function update_contact(){
+$this->data = array(
+'contact_info'=> $this->data->get_table_data('contact_info'),
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('rose_about/update_contact',$this->data);
+	}
+public function contact_action(){
+$lat=$this->input->post('lat');
+$lag=$this->input->post('lag');
+$phone=$this->input->post('phone');
+$fax=$this->input->post('fax');
+$address=$this->input->post('address');
+$address_eng=$this->input->post('addresseng');
+
+$email=$this->input->post('email');
+$infomail=$this->input->post('infomail');
+$support_mail=$this->input->post('support_mail');
+$data = array('address'=>$address,'eng_address'=>$address_eng,'phone'=>$phone,'fax'=>$fax,'mail'=>$email,'lat'=>$lat,'lag'=>$lag,'support_mail'=>$support_mail,'infomail'=>$infomail);
+$re=$this->data->edit_table('contact_info','1',$data);
+$this->data = array(
+'contact_info'=> $this->data->get_table_data('contact_info'),
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('rose_about/update_contact',$this->data);
+	}
+
+
+/*****************************/
+/************************20-12-2017******************/
+
+/***************** START SLIDER **********************/
+
+public function slider(){
+    $tables = "slider_home";
+    $config = array();
+    $config['base_url'] = base_url().'home/slider'; 
+    $config['total_rows'] = $this->data->record_count($tables);
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+$this->db->where("view", "1");
+$this->db->or_where('view', "0");
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->db->get($tables)->result();
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('slider',$data);
+  }
+   public function add_slider(){
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('add_slider',$this->data);
+  }
+ public function slider_action(){
+$metadesc=$this->input->post('metadesc');
+$title=$this->input->post('title');
+$titleeng=$this->input->post('titleeng');
+$metadesceng=$this->input->post('metadesceng');
+
+$titleeng_link=$this->input->post('titleeng_link');
+$title_link=$this->input->post('title_link');
+$link=$this->input->post('link');
+
+if($_FILES['file']['name']!=""){
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/home_slider/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =1000000;
+$config['max_width']            = 1000000;
+$config['max_height']           = 1000000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+$this->upload->initialize($config);
+if (!$this->upload->do_upload('file')){
+echo $this->upload->display_errors();
+ }
+
+else {
+$url= $_FILES['file']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('img'=>$imagename.".".$file_extension,'title_link'=>$title_link,'titleeng_link'=>$titleeng_link,'link'=>$link,'description_ar'=>$metadesc,'description'=>$metadesceng,'title_ar'=>$title,'title'=>$titleeng);
+$this->data->insert_filed('slider_home',$data);
+}
+	
+}
+$this->load->helper('url');
+redirect('/home/slider?success', 'refresh');
+  }
+ 
+  public function slider_view(){
+$id=$this->input->post('id');
+$view=$this->input->post('view');
+$data = array('view'=>$view);
+$re=$this->data->edit_table('slider_home',$id,$data);
+echo json_encode ($view) ;
+}
+
+
+public function delete_slider(){
+$product_id = $this->input->get('id');
+$check=$this->input->post('check');
+if($product_id!=""){
+$img_right = $this->data->get_table_row('slider_home',array('id'=>$product_id),'img');
+if($img_right!=""){ 
+unlink("../site/ar/images/home_slider/$img_right");  
+}
+$ret_value=$this->data->delete_table_row('slider_home',array('id'=>$product_id));
+}
+if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+$img_right = $this->data->get_table_row('slider_home',array('id'=>$check[$i]),'img');
+if($img_right!=""){ 
+unlink("../site/ar/images/home_slider/$img_right");  
+}
+$ret_value=$this->data->delete_table_row('slider_home',array('id'=>$check[$i]));     
+ }
+ }
+$this->load->helper('url');
+redirect('/home/slider?success', 'refresh');
+  }
+  
+    public function update_slider(){
+		$id_slider=$this->input->get('id');
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'),
+'silder_data'=> $this->data->get_table_data('slider_home',array('id'=>$id_slider)));
+$this->load->view('update_slider',$this->data);
+  } 
+  
+  
+ public function updateslider_action(){
+$metadesc=$this->input->post('metadesc');
+$title=$this->input->post('title');
+$titleeng=$this->input->post('titleeng');
+$metadesceng=$this->input->post('metadesceng');
+
+$titleeng_link=$this->input->post('titleeng_link');
+$title_link=$this->input->post('title_link');
+$link=$this->input->post('link');
+$id=$this->input->post('id');
+$data = array('title_link'=>$title_link,'titleeng_link'=>$titleeng_link,'link'=>$link,'description_ar'=>$metadesc,'description'=>$metadesceng,'title_ar'=>$title,'title'=>$titleeng);
+$this->data->edit_table('slider_home',$id,$data);
+
+if($_FILES['file']['name']!=""){
+$logo = $this->data->get_table_row('slider_home',array('id'=>$id),'img'); 
+if ($logo != "") {
+unlink("../site/ar/images/home_slider/$logo");
+}
+$img_name=$this->gen_random_string(); 
+$imagename = $img_name;
+$config['upload_path'] = '../site/ar/images/home_slider/';
+$config['allowed_types']        = 'gif|jpg|png|jpeg';
+$config['max_size']             =1000000;
+$config['max_width']            =1000000;
+$config['max_height']           =1000000;
+$config['file_name'] = $imagename; 
+$this->load->library('upload', $config);
+ $this->upload->initialize($config);
+ if (!$this->upload->do_upload('file')){
+ echo $this->upload->display_errors();
+ }
+
+else {
+$url= $_FILES['file']['name'];
+$ext = explode(".",$url);
+$file_extension = end($ext);
+$data = array('img'=>$imagename.".".$file_extension);
+$this->data->edit_table('slider_home',$id,$data);
+ }
+
+  }
+$this->load->helper('url');
+redirect('/home/slider?success', 'refresh');
+  }
+/********************************************************************/
+
+
+/**************************************24-12-2017********************************/
+public function category(){
+
+    $tables = "category";
+    $config = array();
+    $config['base_url'] = base_url().'home/category'; 
+    $config['total_rows'] = $this->data->record_count($tables,array(),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('category/category',$data);
+  }
+
+
+public function add_category(){
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('category/add_category',$this->data);
+}
+
+public function category_action(){
+$title=$this->input->post('title');
+$titleeng=$this->input->post('titleeng');
+$model=$this->input->post('model');
+$smalldescriptionar=$this->input->post('smalldescriptionar');
+$smalldescription=$this->input->post('smalldescription');
+$position=$this->input->post('position');
+
+
+$data['title'] = $title;
+$data['titleeng'] = $titleeng;
+$data['model'] = $model;
+$data['position'] = $position;
+$data['smalldescriptionar'] = $smalldescriptionar;
+$data['smalldescription'] = $smalldescription;
+
+
+
+$this->db->insert('category',$data);
+$this->session->set_flashdata('msg', 'تم اضافة الداتا بنجاح');
+$this->session->mark_as_flash('msg');
+redirect('/home/category?lang='.$lang);
+}
+
+public function category_view(){
+  $id = $this->input->post("id");
+    $ser = $this->db->get_where("category",array("id"=>$id,"view" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("category",array("view" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("category",array("view" => "1"),array("id"=>$id));
+      echo "1";
+    }      
+}     
+
+public function update_category(){
+	$id_p=$this->input->get('id');
+$this->data = array(
+'articles'=> $this->data->get_table_data('category',array('id'=>$id_p)),
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('category/update_category',$this->data);
+}
+public function update_categ(){
+$title=$this->input->post('title');
+$titleeng=$this->input->post('titleeng');
+$id=$this->input->post('id');
+$model=$this->input->post('model');
+$smalldescriptionar=$this->input->post('smalldescriptionar');
+$smalldescription=$this->input->post('smalldescription');
+$position=$this->input->post('position');
+
+$data['title'] = $title;
+$data['titleeng'] = $titleeng;
+$data['model'] = $model;
+$data['position'] = $position;
+$data['smalldescriptionar'] = $smalldescriptionar;
+$data['smalldescription'] = $smalldescription;
+
+$this->db->update('category',$data,array('id'=>$id));
+
+$this->session->set_flashdata('msg', 'تم اضافة الداتا بنجاح');
+$this->session->mark_as_flash('msg');
+redirect('/home/category');
+} 
+
+
+public function delete_category(){
+$product_id = $this->input->get('id');
+$check=$this->input->post('check');
+if($product_id!=""){
+$ret_value=$this->data->delete_table_row('category',array('id'=>$product_id));
+}
+if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+$ret_value=$this->data->delete_table_row('category',array('id'=>$check[$i]));     
+ }
+ }
+$this->load->helper('url');
+redirect('/home/category?success', 'refresh');
+  }
+  
+  
+public function cartype(){
+
+    $tables = "cartype";
+    $config = array();
+    $config['base_url'] = base_url().'home/cartype'; 
+    $config['total_rows'] = $this->data->record_count($tables,array(),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('cartype/cartype',$data);
+  }  
+
+public function add_cartype(){
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('cartype/add_cartype',$this->data);
+}
+
+public function cartype_action(){
+$this->load->view('cartype/cartype_action');
+}
+
+public function cartype_view(){
+  $id = $this->input->post("id");
+    $ser = $this->db->get_where("cartype",array("id"=>$id,"view" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("cartype",array("view" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("cartype",array("view" => "1"),array("id"=>$id));
+      echo "1";
+    }      
+}   
+
+
+public function delete_cartype(){
+$product_id = $this->input->get('id');
+$check=$this->input->post('check');
+if($product_id!=""){
+$img_right = $this->data->get_table_data('gallery',array('id_car'=>$product_id));
+foreach($img_right as $img_right){
+if($img_right->img!=""){ 
+unlink("../site/ar/images/car_type/".$img_right->img);  
+}
+}
+$ret_value=$this->data->delete_table_row('cartype',array('id'=>$product_id));
+$ret_value=$this->data->delete_table_row('gallery',array('id_car'=>$product_id));
+}
+if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+$img_right = $this->data->get_table_data('gallery',array('id_car'=>$check[$i]));
+foreach($img_right as $img_right){
+if($img_right->img!=""){ 
+unlink("../site/ar/images/car_type/".$img_right->img);  
+}
+}
+
+$ret_value=$this->data->delete_table_row('cartype',array('id'=>$check[$i])); 
+$ret_value=$this->data->delete_table_row('gallery',array('id_car'=>$check[$i]));    
+ }
+ }
+$this->load->helper('url');
+redirect('/home/cartype?success', 'refresh');
+  }
+
+public function update_cartype(){
+$id_p=$this->input->get('id');
+$this->data = array(
+'articles'=> $this->data->get_table_data('cartype',array('id'=>$id_p)),
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('cartype/update_cartype',$this->data);
+}
+
+public function update_cartype_action(){
+$service_type=$this->input->post('service_type');
+    $description=$this->input->post('description');
+  $idnews=$this->input->post('id');
+    $descriptioneng=$this->input->post('descriptioneng');
+    $video=$this->input->post('video');
+
+$data = array('video'=>$video,'id_category'=>$service_type,'descriptionar'=>$description,'description'=>$descriptioneng);
+$re=$this->data->edit_table('cartype',$idnews,$data);
+  $ids=$idnews;
+   if ($_FILES['img1']['name'][0] != "") {
+	    echo $_FILES['img1']['name'][0];
+     $filesCount = count($_FILES['img1']['name']);
+            for($i = 0; $i < $filesCount; $i++){
+                $_FILES['userFile']['name'] = $_FILES['img1']['name'][$i];
+                $_FILES['userFile']['type'] = $_FILES['img1']['type'][$i];
+                $_FILES['userFile']['tmp_name'] = $_FILES['img1']['tmp_name'][$i];
+                $_FILES['userFile']['error'] = $_FILES['img1']['error'][$i];
+                $_FILES['userFile']['size'] = $_FILES['img1']['size'][$i];
+
+                $uploadPath = '../site/ar/images/car_type/';
+                $config['upload_path'] = $uploadPath;
+                $config['allowed_types'] = 'gif|jpg|png';
+                
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                if($this->upload->do_upload('userFile')){
+                    $fileData = $this->upload->data();
+                    $uploadData[$i]['img'] = $fileData['file_name'];
+                    $uploadData[$i]['id_car'] = $ids;
+					 
+                }
+            }
+     $this->db->insert_batch('gallery',$uploadData);
+
+  
+		}
+ $this->load->helper('url');
+redirect('/home/cartype?success', 'refresh');  
+}
+
+
+
+ public function delete_gallery()  {    
+  $id_img = $this->uri->segment(3);
+  $row1 = $this->db->get_where("gallery",array("id" => $id_img))->result();
+  foreach ($row1 as $row1) {
+unlink("./site/ar/images/articles/".$row1->img);
+}
+if ($this->data->delete_table_row("gallery",array("id" => $id_img))) {
+redirect($_SERVER['HTTP_REFERER']);
+}
+}  
+/***************************************End 24-12-2017************************************************/
+/***************************************Start 1-1-2018************************************************/
+public function cars(){
+
+    $tables = "cars";
+    $config = array();
+    $config['base_url'] = base_url().'home/cars'; 
+    $config['total_rows'] = $this->data->record_count($tables,array(),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array(), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('cars/cars',$data);
+  }  
+
+public function add_cars(){
+$this->data = array(
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('cars/add_cars',$this->data);
+}
+
+
+public function cars_view(){
+  $id = $this->input->post("id");
+    $ser = $this->db->get_where("cars",array("id"=>$id,"view" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("cars",array("view" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("cars",array("view" => "1"),array("id"=>$id));
+      echo "1";
+    }      
+} 
+
+public function cars_action(){
+$this->load->view('cars/cars_action');
+}
+
+
+public function delete_cars(){
+$product_id = $this->input->get('id');
+$check=$this->input->post('check');
+if($product_id!=""){
+$ret_value=$this->data->delete_table_row('cars',array('id'=>$product_id));
+}
+if(isset($check)&&$check!=""){  
+  $check=$this->input->post('check');
+  $length=count($check);
+  for($i=0;$i<$length;$i++){
+$ret_value=$this->data->delete_table_row('cars',array('id'=>$check[$i])); 
+ }
+ }
+$this->load->helper('url');
+redirect('/home/cars?success', 'refresh');
+  }
+  
+ public function update_cars(){
+$id_p=$this->input->get('id');
+$this->data = array(
+'articles'=> $this->data->get_table_data('cars',array('id'=>$id_p)),
+'num_admin'=> $this->data->get_table_data('admin'),
+'site_info'=> $this->data->get_table_data('site_info'));
+$this->load->view('cars/update_cars',$this->data);
+}
+
+public function update_cars_action(){
+$titleeng=$this->input->post('titleeng');
+    $title=$this->input->post('title');
+  $idnews=$this->input->post('id');
+    $service_type=$this->input->post('service_type');
+$length=count($service_type);
+  for($i=0;$i<$length;$i++){
+	   $id_category= $service_type[$i];
+	   $data = array('id_category'=>$id_category,'title'=>$title,'titleeng'=>$titleeng);
+$re=$this->data->edit_table('cars',$idnews,$data);
+  }
+   $this->load->helper('url');
+redirect('/home/cars?success', 'refresh');  
+}
+
+/***************************************End 1-1-2018************************************************/
+
+
+
+
+
+
+/**********************************************4-1-2018*************************************************
+/********************************************Start City*************************************************/
+public function city(){
+$this->load->view('places/city');
+	}
+	
+public function add_city(){
+
+$this->load->view('places/add_city');
+	}
+public function city_action(){
+$this->load->view('places/config/city_action');
+	}
+
+
+public function city_view(){
+$id=$this->input->post('id');
+$view=$this->input->post('view');
+$data = array('view'=>$view);
+$re=$this->data->edit_table('city',$id,$data);
+echo json_encode ($view) ;   
+	}	
+
+public function delete_city(){
+	$product_id = $this->input->get('id');
+	$check=$this->input->post('check');
+	if($product_id!=""){
+	$ret_value=$this->data->delete_table_row('city',array('id'=>$product_id)); 
+	  }
+	if(isset($check)&&$check!=""){	
+	$check=$this->input->post('check');
+	$length=count($check);
+	for($i=0;$i<$length;$i++){
+	$ret_value=$this->data->delete_table_row('city',array('id'=>$check[$i])); 		
+	}
+
+	 }
+$this->load->view('places/city');
+	}
+
+
+public function update_city(){
+$id_lnews=$this->input->get('id');
+$this->data = array(
+'city' => $this->data->get_table_data('city',array('id'=>$id_lnews)));
+$this->load->view('places/update_city',$this->data);
+ }
+public function update_cities(){
+$title=$this->input->post('title');
+$titleeng=$this->input->post('titleeng');
+$lat=$this->input->post('lat');
+$lag=$this->input->post('lag');
+$idnews=$this->input->post('id');
+$data = array('name'=>$title,'name_eng'=>$titleeng,'lat'=>$lat,'lag'=>$lag);
+$re=$this->data->edit_table('city',$idnews,$data);
+
+$this->load->view('places/city');			
+		}
+
+
+
+public function drivers(){
+
+    $tables = "clients";
+    $config = array();
+    $config['base_url'] = base_url().'home/drivers'; 
+    $config['total_rows'] = $this->data->record_count($tables,array('type'=>'0'),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array('type'=>'0'), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('clients/drivers',$data);
+  } 
+
+
+
+
+public function check_view_drivers(){
+  $id = $this->input->post("id");
+    $ser = $this->db->get_where("clients",array("id"=>$id,"view" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("clients",array("view" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("clients",array("view" => "1"),array("id"=>$id));
+      echo "1";
+    }      
+} 
+
+
+public function check_view_code_actvation(){
+  $id = $this->input->post("id");
+    $ser = $this->db->get_where("clients",array("id"=>$id,"code_actvation" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("clients",array("code_actvation" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("clients",array("code_actvation" => "1"),array("id"=>$id));
+      echo "1";
+    }      
+} 
+
+
+
+public function passengers(){
+
+    $tables = "clients";
+    $config = array();
+    $config['base_url'] = base_url().'home/drivers'; 
+    $config['total_rows'] = $this->data->record_count($tables,array('type'=>'1'),'','id','desc');
+    $config['per_page'] =20;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';   
+    $config['last_link'] = '»»';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['first_link'] = '««';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '»';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a>';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $this->pagination->initialize($config);
+if($this->uri->segment(3)){
+$page = ($this->uri->segment(3)) ;
+}
+else{
+$page =0;
+}
+$rs = $this->db->get($tables);
+if($rs->num_rows() == 0):
+$data["results"] = array();
+$data["links"] = array();
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+else:
+$data['num_admin']= $this->data->get_table_data('admin');
+$data['site_info']= $this->data->get_table_data('site_info');
+$data["results"] = $this->data->view_all_data($tables, array('type'=>'1'), $config["per_page"], $page);
+$str_links = $this->pagination->create_links();
+$data["links"] = explode('&nbsp;',$str_links);
+endif;
+$this->load->view('clients/passengers',$data);
+  } 
+
+
+
+
+public function check_view_passengers(){
+  $id = $this->input->post("id");
+    $ser = $this->db->get_where("clients",array("id"=>$id,"view" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("clients",array("view" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("clients",array("view" => "1"),array("id"=>$id));
+      echo "1";
+    }      
+} 
+
+
+public function check_view_pcode_actvation(){
+  $id = $this->input->post("id");
+    $ser = $this->db->get_where("clients",array("id"=>$id,"code_actvation" => "1"))->num_rows();
+    if ($ser == 1) {
+      $this->db->update("clients",array("code_actvation" => "0"),array("id"=>$id));
+      echo "0";
+    }
+    if ($ser == 0) {
+      $this->db->update("clients",array("code_actvation" => "1"),array("id"=>$id));
+      echo "1";
+    }      
+} 
+
+
+}
+
+
+
+  

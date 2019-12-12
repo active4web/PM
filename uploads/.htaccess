@@ -1,0 +1,14 @@
+DirectoryIndex index.php
+RewriteEngine on
+RewriteCond $1 !^(index\.php|images|css|js|robots\.txt|favicon\.ico)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/cpanel-dcv/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^(.*)$ ./index.php?/$1 [L,QSA]
+RewriteCond %{HTTP_HOST} ^tasks\.wisyst\.info$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.tasks\.wisyst\.info$
+RewriteRule ^/?$ "https\:\/\/tasks\.wisyst\.info\/admin" [R=301,L]
+# directory browsing
+Options All -Indexes
